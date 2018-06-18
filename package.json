@@ -1,0 +1,42 @@
+{
+  "name": "picosanity",
+  "version": "1.0.0",
+  "description": "Tiny Sanity client alternative should you only need to do queries",
+  "main": "lib/client.js",
+  "umd": "umd/client.js",
+  "scripts": {
+    "clean": "rimraf lib/",
+    "build": "npm run clean && npm run compile && NODE_ENV=production webpack -p",
+    "compile": "babel --copy-files -d lib/ src/",
+    "posttest": "eslint .",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rexxars/picosanity.git"
+  },
+  "keywords": [
+    "sanity",
+    "client"
+  ],
+  "author": "Espen Hovlandsdal <espen@hovlandsdal.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rexxars/picosanity/issues"
+  },
+  "homepage": "https://github.com/rexxars/picosanity#readme",
+  "dependencies": {
+    "cross-fetch": "^2.2.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^4.19.1",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-config-sanity": "^0.132.2",
+    "jest": "^23.1.0",
+    "prettier": "^1.13.5",
+    "rimraf": "^2.6.2",
+    "webpack-command": "^0.2.1"
+  }
+}
