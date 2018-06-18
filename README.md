@@ -6,7 +6,7 @@ Tiny Sanity client alternative should you only need to do queries.
 
 ## Targets
 
-- Node.js >= 4
+- Node.js >= 6
 - Modern browsers (Edge, Chrome, Safari, Firefox etc)
 - IE if Promise is polyfilled
 

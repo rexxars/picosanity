@@ -20,6 +20,9 @@
     "sanity",
     "client"
   ],
+  "engines": {
+    "node": ">=6"
+  },
   "author": "Espen Hovlandsdal <espen@hovlandsdal.com>",
   "license": "MIT",
   "bugs": {
