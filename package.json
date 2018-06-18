@@ -5,6 +5,7 @@
   "main": "lib/index.js",
   "browser": "lib/browser.js",
   "umd": "umd/client.js",
+  "unpkg": "umd/client.js",
   "scripts": {
     "clean": "rimraf lib/ umd/",
     "build": "npm run clean && npm run compile && NODE_ENV=production webpack -p",

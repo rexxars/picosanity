@@ -35,7 +35,7 @@ client
 
 ## UMD bundle
 
-You can load this module as a UMD-bundle from unpkg https://unpkg.com/picosanity?main=umd.
+You can load this module as a UMD-bundle from unpkg - https://unpkg.com/picosanity  
 If used in a global browser context, it will be available as `window.PicoSanity`
 
 ## License
