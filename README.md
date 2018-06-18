@@ -2,7 +2,7 @@
 
 [![npm version](https://img.shields.io/npm/v/picosanity.svg?style=flat-square)](http://browsenpm.org/package/picosanity)[![Build Status](https://img.shields.io/travis/rexxars/picosanity/master.svg?style=flat-square)](https://travis-ci.org/rexxars/picosanity)
 
-Tiny Sanity client alternative should you only need to do queries.
+Tiny Sanity client alternative, if you only need to do queries and only need to support modern browsers.
 
 ## Targets
 
@@ -32,6 +32,11 @@ client
   .then(articles => console.log(articles))
   .catch(err => console.error('Oh noes: %s', err.message))
 ```
+
+## UMD bundle
+
+You can load this module as a UMD-bundle from unpkg https://unpkg.com/picosanity?main=umd.
+If used in a global browser context, it will be available as `window.PicoSanity`
 
 ## License
 
