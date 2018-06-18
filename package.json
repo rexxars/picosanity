@@ -6,7 +6,7 @@
   "browser": "lib/browser.js",
   "umd": "umd/client.js",
   "scripts": {
-    "clean": "rimraf lib/",
+    "clean": "rimraf lib/ umd/",
     "build": "npm run clean && npm run compile && NODE_ENV=production webpack -p",
     "compile": "babel --copy-files -d lib/ src/",
     "posttest": "eslint .",
