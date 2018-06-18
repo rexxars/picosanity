@@ -1,5 +1,7 @@
 # picosanity
 
+[![npm version](https://img.shields.io/npm/v/picosanity.svg?style=flat-square)](http://browsenpm.org/package/picosanity)[![Build Status](https://img.shields.io/travis/rexxars/picosanity/master.svg?style=flat-square)](https://travis-ci.org/rexxars/picosanity)
+
 Tiny Sanity client alternative should you only need to do queries.
 
 ## Targets
