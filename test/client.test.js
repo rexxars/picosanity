@@ -1,4 +1,4 @@
-const Client = require('../src/client')
+const Client = require('../src')
 
 const expectedDoc = {
   _id: '1ba26a25-7f35-4d24-804e-09cc76a0cd73',

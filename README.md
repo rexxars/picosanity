@@ -7,8 +7,8 @@ Tiny Sanity client alternative should you only need to do queries.
 ## Targets
 
 - Node.js >= 6
-- Modern browsers (Edge, Chrome, Safari, Firefox etc)
-- IE if Promise is polyfilled
+- Modern browsers (Edge >= 14, Chrome, Safari, Firefox etc)
+- IE if [Promise](https://github.com/taylorhakes/promise-polyfill) and [fetch](https://github.com/github/fetch) is polyfilled
 
 ## Installation
 
