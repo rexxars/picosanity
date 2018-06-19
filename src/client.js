@@ -29,8 +29,9 @@ function PicoSanity(config, fetcher) {
 PicoSanity.prototype.fetch = function(query, params) {
   const cfg = this.cfg
   const host = cfg.useCdn ? cdnHost : apiHost
+  const opts = {credentials: cfg.withCredentials ? 'include' : 'omit'}
   const qs = getQs(query, params)
-  return this.fetcher(`https://${cfg.projectId}.${host}/v1/data/query/${cfg.dataset}${qs}`)
+  return this.fetcher(`https://${cfg.projectId}.${host}/v1/data/query/${cfg.dataset}${qs}`, opts)
     .then(res => res.json())
     .then(res => res.result)
 }
