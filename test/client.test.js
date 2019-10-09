@@ -1,4 +1,4 @@
-const Client = require('../lib')
+const Client = require('../src')
 
 const config = {projectId: '89qx0zd4', dataset: 'sweets', useCdn: true}
 

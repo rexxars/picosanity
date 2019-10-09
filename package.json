@@ -23,7 +23,7 @@
     "client"
   ],
   "engines": {
-    "node": ">=6"
+    "node": ">=8"
   },
   "author": "Espen Hovlandsdal <espen@hovlandsdal.com>",
   "license": "MIT",

@@ -6,4 +6,4 @@ All notable changes will be documented in this file.
 
 ### BREAKING
 
-- Support for Internet Explorer dropped. Only Edge >= 14 is now supported (Promise and fetch APIs needs to exist)
+- Support for Node 6 and Internet Explorer dropped. Only Edge >= 14 is now supported (Promise and fetch APIs needs to exist)
