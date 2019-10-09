@@ -7,13 +7,12 @@ function PicoSanity(config, fetcher) {
     return new PicoSanity(config)
   }
 
-  this.cfg = config
+  this.clientConfig = config
   this.fetcher = fetcher
 }
 
 ;[
   'clone',
-  'config',
   'create',
   'createIfNotExists',
   'createOrReplace',
@@ -26,8 +25,17 @@ function PicoSanity(config, fetcher) {
   PicoSanity.prototype[method] = ni(method)
 })
 
+PicoSanity.prototype.config = function(cfg) {
+  if (cfg) {
+    this.clientConfig = Object.assign({}, this.clientConfig, cfg)
+    return this
+  }
+
+  return this.clientConfig
+}
+
 PicoSanity.prototype.fetch = function(query, params) {
-  const cfg = this.cfg
+  const cfg = this.clientConfig
   const host = cfg.useCdn ? cdnHost : apiHost
   const opts = {credentials: cfg.withCredentials ? 'include' : 'omit'}
   const qs = getQs(query, params)

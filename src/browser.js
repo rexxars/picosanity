@@ -1,3 +1,5 @@
 const Client = require('./client')
 
-module.exports = cfg => new Client(cfg, window.fetch)
+module.exports = function(cfg) {
+  return new Client(cfg, window.fetch)
+}

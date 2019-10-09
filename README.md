@@ -8,7 +8,6 @@ Tiny Sanity client alternative, if you only need to do queries and only need to 
 
 - Node.js >= 6
 - Modern browsers (Edge >= 14, Chrome, Safari, Firefox etc)
-- IE if [Promise](https://github.com/taylorhakes/promise-polyfill) and [fetch](https://github.com/github/fetch) is polyfilled
 
 ## Installation
 
