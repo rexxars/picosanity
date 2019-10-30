@@ -64,3 +64,5 @@ typings/
 /lib
 /umd
 
+# No yarn lockfile please
+yarn.lock
