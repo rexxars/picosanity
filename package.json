@@ -1,6 +1,6 @@
 {
   "name": "picosanity",
-  "version": "2.0.3",
+  "version": "2.1.0",
   "description": "Tiny Sanity client alternative should you only need to do queries",
   "main": "lib/index.js",
   "browser": "lib/browser.js",
