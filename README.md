@@ -1,6 +1,6 @@
 # picosanity
 
-[![npm version](https://img.shields.io/npm/v/picosanity.svg?style=flat-square)](http://browsenpm.org/package/picosanity)[![Build Status](https://img.shields.io/travis/rexxars/picosanity/master.svg?style=flat-square)](https://travis-ci.org/rexxars/picosanity)![npm bundle size](https://img.shields.io/bundlephobia/minzip/picosanity?style=flat-square)
+[![npm version](https://img.shields.io/npm/v/picosanity.svg?style=flat-square)](http://browsenpm.org/package/picosanity)[![Build Status](https://img.shields.io/travis/rexxars/picosanity/main.svg?style=flat-square)](https://travis-ci.org/rexxars/picosanity)![npm bundle size](https://img.shields.io/bundlephobia/minzip/picosanity?style=flat-square)
 
 Tiny Sanity client alternative, if you only need to do queries and only need to support modern browsers.
 
@@ -18,18 +18,18 @@ npm install --save picosanity
 ## Usage
 
 ```js
-const PicoSanity = require('picosanity')
+import PicoSanity from 'picosanity'
 
 const client = new PicoSanity({
   projectId: 'myProjectId',
   dataset: 'myDataset',
-  useCdn: true
+  useCdn: true,
 })
 
 client
   .fetch('*[_type == $someType]', {someType: 'article'})
-  .then(articles => console.log(articles))
-  .catch(err => console.error('Oh noes: %s', err.message))
+  .then((articles) => console.log(articles))
+  .catch((err) => console.error('Oh noes: %s', err.message))
 ```
 
 ## UMD bundle
