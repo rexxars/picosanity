@@ -6,7 +6,7 @@ Tiny Sanity client alternative, if you only need to do queries and only need to 
 
 ## Targets
 
-- Node.js >= 8
+- Node.js >= 10
 - Modern browsers (Edge >= 14, Chrome, Safari, Firefox etc)
 
 ## Installation
