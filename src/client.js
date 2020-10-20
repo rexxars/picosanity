@@ -20,12 +20,12 @@ function PicoSanity(config, fetcher) {
   'listen',
   'mutate',
   'patch',
-  'transaction'
-].forEach(method => {
+  'transaction',
+].forEach((method) => {
   PicoSanity.prototype[method] = ni(method)
 })
 
-PicoSanity.prototype.config = function(cfg) {
+PicoSanity.prototype.config = function (cfg) {
   if (cfg) {
     this.clientConfig = Object.assign({}, this.clientConfig, cfg)
     return this
@@ -34,14 +34,15 @@ PicoSanity.prototype.config = function(cfg) {
   return this.clientConfig
 }
 
-PicoSanity.prototype.fetch = function(query, params) {
+PicoSanity.prototype.fetch = function (query, params) {
   const cfg = this.clientConfig
-  const host = cfg.useCdn ? cdnHost : apiHost
-  const opts = {credentials: cfg.withCredentials ? 'include' : 'omit'}
+  const headers = cfg.token ? {Authorization: `Bearer ${cfg.token}`} : undefined
+  const host = !cfg.useCdn || cfg.token ? apiHost : cdnHost
+  const opts = {credentials: cfg.withCredentials ? 'include' : 'omit', headers}
   const qs = getQs(query, params)
   return this.fetcher(`https://${cfg.projectId}.${host}/v1/data/query/${cfg.dataset}${qs}`, opts)
-    .then(res => res.json())
-    .then(res => res.result)
+    .then((res) => res.json())
+    .then((res) => res.result)
 }
 
 function getQs(query, params) {

@@ -2,12 +2,17 @@
 
 All notable changes will be documented in this file.
 
+## 2.1.0
+
+### Added
+
+- Support `token` in constructor
+
 ## 2.0.3
 
 ### Added
 
 - Typescript definitions
-
 
 ## 2.0.0
 
