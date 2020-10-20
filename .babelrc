@@ -4,7 +4,8 @@
       "@babel/preset-env",
       {
         "targets": {
-          "edge": "14"
+          "edge": "14",
+          "node": "8"
         }
       }
     ]
