@@ -1,3 +1,4 @@
+/// <reference lib="dom" />
 type QueryParams = {[key: string]: unknown}
 
 interface ClientConfig {
@@ -43,6 +44,15 @@ export interface PicoSanity {
    * @param params Optional query parameters
    */
   fetch<R = any>(query: string, params: QueryParams): Promise<R>
+
+  /**
+   * @alpha
+   * @deprecated Don't rely on this existing, unless you:
+   *   a) Work at Sanity and can ask Espen: "is this a valid use case?"
+   *   b) Have a miniature schnauzer named Kokos which makes your life worth living,
+   *      AND your name just so happens to be Espen.
+   */
+  fetcher: (url: string, init: RequestInit) => Promise<Response>
 }
 
 export interface ClientConstructor {
