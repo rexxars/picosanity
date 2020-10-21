@@ -3,14 +3,17 @@
   "version": "2.1.0",
   "description": "Tiny Sanity client alternative should you only need to do queries",
   "main": "lib/index.js",
-  "browser": "lib/browser.js",
   "umd": "umd/client.js",
   "unpkg": "umd/client.js",
   "typings": "client.d.ts",
+  "browser": {
+    "./lib/index.js": "./lib/browser.js",
+    "./lib-legacy/index.js": "./lib-legacy/browser.js"
+  },
   "scripts": {
     "clean": "rimraf lib/ umd/",
     "build": "npm run clean && npm run compile && NODE_ENV=production webpack",
-    "compile": "babel --copy-files -d lib/ src/",
+    "compile": "babel --config-file=./babel.modern.json --copy-files -d lib/ src/ && babel --config-file=./babel.legacy.json --copy-files -d lib-legacy/ src/",
     "posttest": "eslint .",
     "test": "jest",
     "prepublishOnly": "npm run build"
@@ -24,7 +27,7 @@
     "client"
   ],
   "engines": {
-    "node": ">=8"
+    "node": ">=10"
   },
   "author": "Espen Hovlandsdal <espen@hovlandsdal.com>",
   "license": "MIT",
@@ -33,6 +36,7 @@
   },
   "homepage": "https://github.com/rexxars/picosanity#readme",
   "dependencies": {
+    "get-it": "^5.0.3",
     "node-fetch": "^2.6.0"
   },
   "devDependencies": {

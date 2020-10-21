@@ -62,6 +62,7 @@ typings/
 
 # Compiled files
 /lib
+/lib-legacy
 /umd
 
 # No yarn lockfile please
