@@ -57,15 +57,18 @@ test('can query with params', () => {
   ).resolves.toMatchObject(expectedDoc)
 })
 
-test('can query with token', async () => {
+test('can query with token', (done) => {
   const client = new Client(config)
   const readClient = new Client({...config, token})
-  expect(
-    await client.fetch('*[_id == $id][0]', {id: 'drafts.1ba26a25-7f35-4d24-804e-09cc76a0cd73'})
-  ).toBe(null)
-  expect(
-    await readClient.fetch('*[_id == $id][0]', {id: 'drafts.1ba26a25-7f35-4d24-804e-09cc76a0cd73'})
-  ).toMatchObject(expectedDraft)
+  client
+    .fetch('*[_id == $id][0]', {id: 'drafts.1ba26a25-7f35-4d24-804e-09cc76a0cd73'})
+    .then((res) => {
+      expect(res).toBe(null)
+      return readClient
+        .fetch('*[_id == $id][0]', {id: 'drafts.1ba26a25-7f35-4d24-804e-09cc76a0cd73'})
+        .then((draft) => expect(draft).toMatchObject(expectedDraft))
+        .then(done)
+    })
 })
 
 test('can reconfigure with .config(newConfig)', () => {
