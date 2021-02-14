@@ -2,6 +2,12 @@
 
 All notable changes will be documented in this file.
 
+## 2.2.0
+
+### Changed
+
+- Compile for IE11 compatability (if global fetch polyfill is present)
+
 ## 2.1.0
 
 ### Added
