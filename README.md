@@ -23,6 +23,7 @@ import PicoSanity from 'picosanity'
 const client = new PicoSanity({
   projectId: 'myProjectId',
   dataset: 'myDataset',
+  apiVersion: '2021-03-25', // use a UTC date string
   useCdn: true,
 })
 
