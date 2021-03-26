@@ -2,7 +2,11 @@
 
 All notable changes will be documented in this file.
 
-## 2.3.0
+## 3.0.0
+
+### BREAKING
+
+- Support for Node 10 dropped.
 
 ### Added
 
