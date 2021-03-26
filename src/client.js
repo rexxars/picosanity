@@ -38,10 +38,13 @@ PicoSanity.prototype.fetch = function (query, params) {
   const cfg = this.clientConfig
   const headers = cfg.token ? {Authorization: `Bearer ${cfg.token}`} : undefined
   const host = !cfg.useCdn || cfg.token ? apiHost : cdnHost
-  const version = cfg.apiVersion ? 'v1' : 'v' + cfg.apiVersion
+  const version = cfg.apiVersion ? `v${cfg.apiVersion.replace(/^v/, '')}` : 'v1'
   const opts = {credentials: cfg.withCredentials ? 'include' : 'omit', headers}
   const qs = getQs(query, params)
-  return this.fetcher(`https://${cfg.projectId}.${host}/${version}/data/query/${cfg.dataset}${qs}`, opts)
+  return this.fetcher(
+    `https://${cfg.projectId}.${host}/${version}/data/query/${cfg.dataset}${qs}`,
+    opts
+  )
     .then((res) => res.json())
     .then((res) => res.result)
 }
