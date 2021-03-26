@@ -1,1 +1,9 @@
-yarn.lock
+/.babelrc
+/.editorconfig
+/.eslintignore
+/.eslintrc
+/.github
+/.prettierrc
+/test
+/webpack.config.js
+/yarn.lock
