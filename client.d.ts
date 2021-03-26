@@ -4,6 +4,7 @@ type QueryParams = {[key: string]: unknown}
 interface ClientConfig {
   projectId: string
   dataset: string
+  apiVersion?: string
   token?: string
   useCdn?: boolean
   withCredentials?: boolean
