@@ -44,9 +44,24 @@ PicoSanity.prototype.fetch = function (query, params) {
   return this.fetcher(
     `https://${cfg.projectId}.${host}/${version}/data/query/${cfg.dataset}${qs}`,
     opts
-  )
-    .then((res) => res.json())
-    .then((res) => res.result)
+  ).then(parse)
+}
+
+function parse(res) {
+  return res.json().then((json) => {
+    if (res.status < 400) {
+      return json.result
+    }
+
+    let msg = res.url
+    let type = res.statusText
+    if (json.error && json.error.description) {
+      msg = json.error.description
+      type = json.error.type || type
+    }
+
+    throw new Error(`HTTP ${res.status} ${type}: ${msg}`)
+  })
 }
 
 function getQs(query, params) {

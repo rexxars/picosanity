@@ -78,6 +78,33 @@ test('can reconfigure with .config(newConfig)', () => {
   expect(client.config()).toMatchObject({...config, projectId: 'abc123'})
 })
 
+test('can specify api version', (done) => {
+  const client = new Client({...config, apiVersion: 'v2021-03-25'})
+
+  client
+    .fetch('*[_id == $id][0] { _id, _type, title, "description": pt::text(nope) }', {
+      id: '1ba26a25-7f35-4d24-804e-09cc76a0cd73',
+    })
+    .then((res) => {
+      expect(res).toEqual({...expectedDoc, description: null})
+      done()
+    })
+})
+
+test('throws on syntax errors', (done) => {
+  const client = new Client({...config, apiVersion: 'v2021-03-25'})
+
+  client.fetch('*[_id == "nope"][0] { _id, ').then(
+    () => {
+      throw new Error('Should not succeed')
+    },
+    (err) => {
+      expect(err.message).toEqual(`HTTP 400 queryParseError: expected '}' following object body`)
+      done()
+    }
+  )
+})
+
 describe('throws when using unimplemented methods', () => {
   const client = new Client(config)
 
