@@ -57,6 +57,14 @@ test('can query with params', () => {
   ).resolves.toMatchObject(expectedDoc)
 })
 
+test('long queries (>11kB) gets POSTed', () => {
+  const client = new Client(config)
+  const ws = ' '.repeat(11 * 1024)
+  return expect(
+    client.fetch(`*[_id == $id]${ws}[0]`, {id: '1ba26a25-7f35-4d24-804e-09cc76a0cd73'})
+  ).resolves.toMatchObject(expectedDoc)
+})
+
 test('can query with token', (done) => {
   const client = new Client(config)
   const readClient = new Client({...config, token})
