@@ -48,20 +48,29 @@ PicoSanity.prototype.fetch = function (query, params) {
 }
 
 function parse(res) {
+  const contentType = res.headers.get('content-type') || ''
+  if (!contentType.includes('json')) {
+    throw getError(res)
+  }
+
   return res.json().then((json) => {
     if (res.status < 400) {
       return json.result
     }
 
-    let msg = res.url
-    let type = res.statusText
-    if (json.error && json.error.description) {
-      msg = json.error.description
-      type = json.error.type || type
-    }
-
-    throw new Error(`HTTP ${res.status} ${type}: ${msg}`)
+    throw getError(res, json)
   })
+}
+
+function getError(res, json) {
+  let msg = res.url
+  let type = res.statusText
+  if (json && json.error && json.error.description) {
+    msg = json.error.description
+    type = json.error.type || type
+  }
+
+  return new Error(`HTTP ${res.status} ${type}: ${msg}`)
 }
 
 function getQs(query, params) {
