@@ -2,6 +2,16 @@
 
 All notable changes will be documented in this file.
 
+## 3.0.1
+
+### Added
+
+- Support large queries by automatically switching to non-CDN API and using HTTP POST method.
+
+### Changed
+
+- Improved error handling on non-JSON HTTP responses
+
 ## 3.0.0
 
 ### BREAKING
