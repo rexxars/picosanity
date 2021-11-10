@@ -2,6 +2,12 @@
 
 All notable changes will be documented in this file.
 
+## 3.0.2
+
+### Changed
+
+- Implicitly add support for CloudFlare Workers and other non-browser, non-node environments by not referencing `window`, not passing `credentials` option to `fetch()`
+
 ## 3.0.1
 
 ### Added
