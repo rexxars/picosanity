@@ -44,20 +44,18 @@ PicoSanity.prototype.fetch = function (query, params) {
   const type = usePost ? {'content-type': 'application/json'} : undefined
   const headers = Object.assign({}, auth, type)
 
-  // Some environments (like CloudFlare Workers) don't support credentials
-  // in fetch() RequestInitDict, and there doesn't seem to be any easy way
-  // to check of it, so for now we'll make do with a window check :/
-  let credentials
-  if (typeof window !== 'undefined') {
-    credentials = cfg.withCredentials ? 'include' : 'omit'
-  }
-
   const host = !cfg.useCdn || cfg.token || usePost ? apiHost : cdnHost
   const opts = {
-    credentials,
     headers,
     method: usePost ? 'POST' : 'GET',
     body: usePost ? JSON.stringify({query, params}) : undefined,
+  }
+
+  // Some environments (like CloudFlare Workers) don't support credentials
+  // in fetch() RequestInitDict, and there doesn't seem to be any easy way
+  // to check of it, so for now we'll make do with a window check :/
+  if (typeof window !== 'undefined') {
+    opts.credentials = cfg.withCredentials ? 'include' : 'omit'
   }
 
   const url = `https://${cfg.projectId}.${host}/${version}/data/query/${cfg.dataset}`
