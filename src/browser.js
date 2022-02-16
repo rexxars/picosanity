@@ -1,5 +1,6 @@
 const Client = require('./client')
 
 module.exports = function (cfg) {
-  return new Client(cfg, (input, init) => fetch(input, init))
+  const fetcher = (input, init) => fetch(input, init)
+  return new Client(cfg, {fetch: fetcher})
 }

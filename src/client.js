@@ -3,13 +3,14 @@ const has = {}.hasOwnProperty
 const apiHost = 'api.sanity.io'
 const cdnHost = 'apicdn.sanity.io'
 
-function PicoSanity(config, fetcher) {
+function PicoSanity(config, options) {
   if (!(this instanceof PicoSanity)) {
     return new PicoSanity(config)
   }
 
   this.clientConfig = config
-  this.fetcher = fetcher
+  this.fetcher = options.fetch
+  this.headers = options.headers || {}
 }
 
 ;[
@@ -42,13 +43,16 @@ PicoSanity.prototype.fetch = function (query, params) {
   const usePost = qs.length > 11264
   const auth = cfg.token ? {Authorization: `Bearer ${cfg.token}`} : undefined
   const type = usePost ? {'content-type': 'application/json'} : undefined
-  const headers = Object.assign({}, auth, type)
+  const headers = Object.assign({}, this.headers, auth, type)
 
-  const host = !cfg.useCdn || cfg.token || usePost ? apiHost : cdnHost
+  const host = cfg.useCdn ? cdnHost : apiHost
   const opts = {
     headers,
     method: usePost ? 'POST' : 'GET',
-    body: usePost ? JSON.stringify({query, params}) : undefined,
+  }
+
+  if (usePost) {
+    opts.body = JSON.stringify({query, params})
   }
 
   // Some environments (like CloudFlare Workers) don't support credentials

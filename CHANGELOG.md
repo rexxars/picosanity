@@ -2,6 +2,18 @@
 
 All notable changes will be documented in this file.
 
+## 4.0.0
+
+### BREAKING
+
+- BREAKING: Passing a `token` _and_ `useCdn: true` will now use the API CDN for queries, where it previously used the uncached, "live" API.
+
+## 3.0.3
+
+### Fixed
+
+- Fixed an issue where certain environments would throw an error when `credentials` was provided to `fetch` with the value of `undefined`
+
 ## 3.0.2
 
 ### Changed
