@@ -97,6 +97,25 @@ test('can specify api version', () => {
     })
 })
 
+test('can query with perspectives', () => {
+  const client = new Client({
+    ...config,
+    token,
+    apiVersion: 'v2021-03-25',
+    useCdn: false,
+    perspective: 'previewDrafts',
+  })
+  return client
+    .fetch('*[_id == $id][0]', {id: expectedDoc._id})
+    .then((res) =>
+      expect(res).toMatchObject({
+        ...expectedDoc,
+        title: expectedDraft.title,
+        _originalId: expectedDraft._id,
+      })
+    )
+})
+
 test('includes package name in user agent (in node.js)', () => {
   const client = new Client({...config, apiVersion: 'v2021-03-25'})
   client.fetcher = jest.fn(() =>
