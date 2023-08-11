@@ -62,8 +62,15 @@ PicoSanity.prototype.fetch = function (query, params) {
     opts.credentials = cfg.withCredentials ? 'include' : 'omit'
   }
 
-  const url = `https://${cfg.projectId}.${host}/${version}/data/query/${cfg.dataset}`
-  return this.fetcher(`${url}${usePost ? '' : qs}`, opts).then(parse)
+  let url = `https://${cfg.projectId}.${host}/${version}/data/query/${cfg.dataset}${
+    usePost ? '' : qs
+  }`
+
+  if (cfg.perspective) {
+    url = `${url}${usePost ? '?' : '&'}perspective=${enc(cfg.perspective)}`
+  }
+
+  return this.fetcher(url, opts).then(parse)
 }
 
 function parse(res) {
