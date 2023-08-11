@@ -1,13 +1,18 @@
 /// <reference lib="dom" />
 type QueryParams = {[key: string]: unknown}
 
-interface ClientConfig {
+export interface ClientConfig {
   projectId: string
   dataset: string
   apiVersion?: string
   token?: string
   useCdn?: boolean
   withCredentials?: boolean
+  perspective?: string
+}
+
+export interface FetchOptions {
+  perspective?: string
 }
 
 export interface PicoSanity {
@@ -45,6 +50,15 @@ export interface PicoSanity {
    * @param params Optional query parameters
    */
   fetch<R = any>(query: string, params: QueryParams): Promise<R>
+
+  /**
+   * Perform a GROQ-query against the configured dataset.
+   *
+   * @param query GROQ-query to perform
+   * @param params Optional query parameters
+   * @param options Optional fetch options
+   */
+  fetch<R = any>(query: string, params: QueryParams, options: FetchOptions): Promise<R>
 
   /**
    * @alpha
