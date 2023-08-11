@@ -2,6 +2,12 @@
 
 All notable changes will be documented in this file.
 
+## 4.1.0
+
+### Added
+
+- Support for [perspectives](https://www.sanity.io/blog/introducing-perspectives-sanity-previews) on either a client level or query level. Thanks @jjjjjx!
+
 ## 4.0.0
 
 ### BREAKING
