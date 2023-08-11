@@ -105,8 +105,59 @@ test('can query with perspectives', () => {
     useCdn: false,
     perspective: 'previewDrafts',
   })
+  return client.fetch('*[_id == $id][0]', {id: expectedDoc._id}).then((res) =>
+    expect(res).toMatchObject({
+      ...expectedDoc,
+      title: expectedDraft.title,
+      _originalId: expectedDraft._id,
+    })
+  )
+})
+
+test('can configure perspectives per-request', () => {
+  const client = new Client({
+    ...config,
+    token,
+    apiVersion: 'v2021-03-25',
+    useCdn: false,
+  })
   return client
-    .fetch('*[_id == $id][0]', {id: expectedDoc._id})
+    .fetch('*[_id == $id][0]', {id: expectedDoc._id}, {perspective: 'previewDrafts'})
+    .then((res) =>
+      expect(res).toMatchObject({
+        ...expectedDoc,
+        title: expectedDraft.title,
+        _originalId: expectedDraft._id,
+      })
+    )
+})
+
+test('per-request perspective overrides client config', () => {
+  const client = new Client({
+    ...config,
+    token,
+    apiVersion: 'v2021-03-25',
+    useCdn: false,
+    perspective: 'previewDrafts',
+  })
+  return client
+    .fetch('*[_id == $id][0]', {id: expectedDoc._id}, {perspective: 'published'})
+    .then((res) => {
+      expect(res).toMatchObject(expectedDoc)
+      expect(res).not.toHaveProperty('_originalId')
+    })
+})
+
+test('per-request perspective overrides client config (#2)', () => {
+  const client = new Client({
+    ...config,
+    token,
+    apiVersion: 'v2021-03-25',
+    useCdn: false,
+    perspective: 'published',
+  })
+  return client
+    .fetch('*[_id == $id][0]', {id: expectedDoc._id}, {perspective: 'previewDrafts'})
     .then((res) =>
       expect(res).toMatchObject({
         ...expectedDoc,

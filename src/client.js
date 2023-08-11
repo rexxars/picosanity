@@ -36,10 +36,11 @@ PicoSanity.prototype.config = function (cfg) {
   return this.clientConfig
 }
 
-PicoSanity.prototype.fetch = function (query, params) {
+PicoSanity.prototype.fetch = function (query, params, options) {
   const cfg = this.clientConfig
   const version = cfg.apiVersion ? `v${cfg.apiVersion.replace(/^v/, '')}` : 'v1'
-  const qs = getQs(query, params)
+  const perspective = options ? options.perspective : cfg.perspective
+  const qs = getQs(query, params, {perspective})
   const usePost = qs.length > 11264
   const auth = cfg.token ? {Authorization: `Bearer ${cfg.token}`} : undefined
   const type = usePost ? {'content-type': 'application/json'} : undefined
@@ -62,13 +63,9 @@ PicoSanity.prototype.fetch = function (query, params) {
     opts.credentials = cfg.withCredentials ? 'include' : 'omit'
   }
 
-  let url = `https://${cfg.projectId}.${host}/${version}/data/query/${cfg.dataset}${
+  const url = `https://${cfg.projectId}.${host}/${version}/data/query/${cfg.dataset}${
     usePost ? '' : qs
   }`
-
-  if (cfg.perspective) {
-    url = `${url}${usePost ? '?' : '&'}perspective=${enc(cfg.perspective)}`
-  }
 
   return this.fetcher(url, opts).then(parse)
 }
@@ -99,8 +96,13 @@ function getError(res, json) {
   return new Error(`HTTP ${res.status} ${type}: ${msg}`)
 }
 
-function getQs(query, params) {
+function getQs(query, params, opts) {
   let qs = `?query=${enc(query)}`
+
+  if (opts.perspective) {
+    qs += `&perspective=${enc(opts.perspective)}`
+  }
+
   if (!params) {
     return qs
   }
