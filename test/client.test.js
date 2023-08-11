@@ -49,14 +49,14 @@ test('sets config to `clientConfig` for @sanity/client compat', () => {
 test('can query', () => {
   const client = new Client(config)
   return expect(
-    client.fetch('*[_id == "1ba26a25-7f35-4d24-804e-09cc76a0cd73"][0]')
+    client.fetch('*[_id == "1ba26a25-7f35-4d24-804e-09cc76a0cd73"][0]'),
   ).resolves.toMatchObject(expectedDoc)
 })
 
 test('can query with params', () => {
   const client = new Client(config)
   return expect(
-    client.fetch('*[_id == $id][0]', {id: '1ba26a25-7f35-4d24-804e-09cc76a0cd73'})
+    client.fetch('*[_id == $id][0]', {id: '1ba26a25-7f35-4d24-804e-09cc76a0cd73'}),
   ).resolves.toMatchObject(expectedDoc)
 })
 
@@ -64,7 +64,7 @@ test('long queries (>11kB) gets POSTed', () => {
   const client = new Client(config)
   const ws = ' '.repeat(11 * 1024)
   return expect(
-    client.fetch(`*[_id == $id]${ws}[0]`, {id: '1ba26a25-7f35-4d24-804e-09cc76a0cd73'})
+    client.fetch(`*[_id == $id]${ws}[0]`, {id: '1ba26a25-7f35-4d24-804e-09cc76a0cd73'}),
   ).resolves.toMatchObject(expectedDoc)
 })
 
@@ -110,7 +110,7 @@ test('can query with perspectives', () => {
       ...expectedDoc,
       title: expectedDraft.title,
       _originalId: expectedDraft._id,
-    })
+    }),
   )
 })
 
@@ -128,7 +128,7 @@ test('can configure perspectives per-request', () => {
         ...expectedDoc,
         title: expectedDraft.title,
         _originalId: expectedDraft._id,
-      })
+      }),
     )
 })
 
@@ -163,7 +163,7 @@ test('per-request perspective overrides client config (#2)', () => {
         ...expectedDoc,
         title: expectedDraft.title,
         _originalId: expectedDraft._id,
-      })
+      }),
     )
 })
 
@@ -180,13 +180,13 @@ test('includes package name in user agent (in node.js)', () => {
       json() {
         return Promise.resolve({result: expectedDoc})
       },
-    })
+    }),
   )
 
   return client.fetch('*[0]').then((res) => {
     expect(client.fetcher).toHaveBeenCalledWith(
       'https://89qx0zd4.apicdn.sanity.io/v2021-03-25/data/query/sweets?query=*%5B0%5D',
-      {headers: {'User-Agent': `${pkg.name}@${pkg.version}`}, method: 'GET'}
+      {headers: {'User-Agent': `${pkg.name}@${pkg.version}`}, method: 'GET'},
     )
     expect(res).toEqual(expectedDoc)
   })
@@ -201,7 +201,7 @@ test('throws on syntax errors', () => {
     },
     (err) => {
       expect(err.message).toEqual(`HTTP 400 queryParseError: expected '}' following object body`)
-    }
+    },
   )
 })
 

@@ -7,6 +7,6 @@ module.exports = {
     library: 'PicoSanity',
     libraryTarget: 'umd',
     path: path.join(__dirname, 'umd'),
-    filename: 'client.js'
-  }
+    filename: 'client.js',
+  },
 }
