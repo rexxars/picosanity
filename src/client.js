@@ -40,8 +40,10 @@ PicoSanity.prototype.fetch = function (query, params, options) {
   const cfg = this.clientConfig
   const version = cfg.apiVersion ? `v${cfg.apiVersion.replace(/^v/, '')}` : 'v1'
   const perspective = options ? options.perspective : cfg.perspective
-  const qs = getQs(query, params, {perspective})
-  const usePost = qs.length > 11264
+  const qsGet = getQs(query, params, {perspective})
+  const qsPost = !!perspective && perspective !== 'raw' ? `?perspective=${enc(perspective)}` : ''
+  const usePost = qsGet.length > 11264
+  const qs = usePost ? qsPost : qsGet
   const auth = cfg.token ? {Authorization: `Bearer ${cfg.token}`} : undefined
   const type = usePost ? {'content-type': 'application/json'} : undefined
   const headers = Object.assign({}, this.headers, auth, type)
@@ -63,9 +65,7 @@ PicoSanity.prototype.fetch = function (query, params, options) {
     opts.credentials = cfg.withCredentials ? 'include' : 'omit'
   }
 
-  const url = `https://${cfg.projectId}.${host}/${version}/data/query/${cfg.dataset}${
-    usePost ? '' : qs
-  }`
+  const url = `https://${cfg.projectId}.${host}/${version}/data/query/${cfg.dataset}${qs}`
 
   return this.fetcher(url, opts).then(parse)
 }
