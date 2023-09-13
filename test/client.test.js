@@ -68,6 +68,25 @@ test('long queries (>11kB) gets POSTed', () => {
   ).resolves.toMatchObject(expectedDoc)
 })
 
+test('POSTed queries with perspective', () => {
+  const client = new Client({
+    ...config,
+    token,
+    apiVersion: 'v2021-03-25',
+    useCdn: false,
+    perspective: 'previewDrafts',
+  })
+  const ws = ' '.repeat(11 * 1024)
+
+  return client.fetch(`*[_id == $id]${ws}[0]`, {id: expectedDoc._id}).then((res) =>
+    expect(res).toMatchObject({
+      ...expectedDoc,
+      title: expectedDraft.title,
+      _originalId: expectedDraft._id,
+    }),
+  )
+})
+
 test('can query with token', () => {
   const client = new Client(config)
   const readClient = new Client({...config, token})
