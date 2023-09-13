@@ -2,6 +2,12 @@
 
 All notable changes will be documented in this file.
 
+## 4.1.1
+
+### Fixed
+
+- Fixed perspective query parameter being sent as POST-body instead of query parameter on large queries. Thanks @niklas-may!
+
 ## 4.1.0
 
 ### Added
