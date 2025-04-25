@@ -6,7 +6,7 @@ Tiny Sanity client alternative, if you only need to do queries and only need to 
 
 ## Targets
 
-- Node.js >= 10
+- Node.js >= 20
 - Modern browsers (Edge >= 14, Chrome, Safari, Firefox etc)
 
 ## Installation
@@ -18,12 +18,12 @@ npm install --save picosanity
 ## Usage
 
 ```js
-import PicoSanity from 'picosanity'
+import {createClient} from 'picosanity'
 
-const client = new PicoSanity({
+const client = createClient({
   projectId: 'myProjectId',
   dataset: 'myDataset',
-  apiVersion: '2021-03-25', // use a UTC date string
+  apiVersion: '2025-04-25', // use a UTC date string
   useCdn: true,
 })
 
@@ -36,7 +36,7 @@ client
 ## UMD bundle
 
 You can load this module as a UMD-bundle from unpkg - https://unpkg.com/picosanity  
-If used in a global browser context, it will be available as `window.PicoSanity`
+If used in a global browser context, it will be available as `window.PicoSanity.createClient()`
 
 ## License
 

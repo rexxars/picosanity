@@ -3,13 +3,13 @@ const has = {}.hasOwnProperty
 const apiHost = 'api.sanity.io'
 const cdnHost = 'apicdn.sanity.io'
 
-function PicoSanity(config, options) {
-  if (!(this instanceof PicoSanity)) {
-    return new PicoSanity(config)
-  }
+export function createClient(config, options = {}) {
+  return new PicoSanity(config, options || {})
+}
 
+function PicoSanity(config, options = {}) {
   this.clientConfig = config
-  this.fetcher = options.fetch
+  this.fetcher = options.fetch || globalThis.fetch
   this.headers = options.headers || {}
 }
 
@@ -121,5 +121,3 @@ function ni(method) {
     throw new Error(`Method "${method}" not implemented, use @sanity/client`)
   }
 }
-
-module.exports = PicoSanity

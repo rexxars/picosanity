@@ -1,10 +1,6 @@
-const fetch = require('node-fetch')
-const Client = require('./client')
-const pkg = require('../package.json')
+import {createClient as create} from './client.js'
 
-module.exports = function (cfg) {
-  return new Client(cfg, {
-    headers: {'User-Agent': `${pkg.name}@${pkg.version}`},
-    fetch,
-  })
+export function createClient(cfg) {
+  const fetcher = (input, init) => fetch(input, init)
+  return create(cfg, {fetch: fetcher})
 }

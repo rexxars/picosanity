@@ -2,29 +2,43 @@
   "name": "picosanity",
   "version": "4.1.1",
   "description": "Tiny Sanity client alternative should you only need to do queries",
-  "main": "lib/index.js",
-  "browser": "lib/browser.js",
+  "type": "module",
+  "main": "./src/index.js",
   "umd": "umd/client.js",
   "unpkg": "umd/client.js",
   "typings": "client.d.ts",
+  "exports": {
+    ".": {
+      "types": "./client.d.ts",
+      "umd": "./umd/client.js",
+      "node": "./src/node.js",
+      "default": "./src/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src",
+    "umd",
+    "client.d.ts"
+  ],
   "scripts": {
-    "clean": "rimraf lib/ umd/",
-    "build": "npm run clean && npm run compile && NODE_ENV=production webpack",
-    "compile": "babel --copy-files -d lib/ src/",
+    "clean": "rimraf umd/",
+    "build": "rollup -c",
     "posttest": "eslint .",
-    "test": "jest",
-    "prepublishOnly": "npm run build"
+    "test": "vitest",
+    "update-version": "node scripts/update-version.js",
+    "prepublishOnly": "npm run update-version && npm run build"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/rexxars/picosanity.git"
+    "url": "git+ssh://git@github.com/rexxars/picosanity.git"
   },
   "keywords": [
     "sanity",
     "client"
   ],
   "engines": {
-    "node": ">=12"
+    "node": ">=20"
   },
   "author": "Espen Hovlandsdal <espen@hovlandsdal.com>",
   "license": "MIT",
@@ -32,19 +46,15 @@
     "url": "https://github.com/rexxars/picosanity/issues"
   },
   "homepage": "https://github.com/rexxars/picosanity#readme",
-  "dependencies": {
-    "node-fetch": "^2.6.0"
-  },
   "devDependencies": {
     "@babel/cli": "^7.22.10",
     "@babel/preset-env": "^7.22.10",
     "eslint": "^8.47.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-sanity": "^5.1.0",
-    "jest": "^29.6.2",
-    "prettier": "^3.0.1",
+    "prettier": "^3.5.3",
     "rimraf": "^5.0.1",
-    "webpack": "^5.88.2",
-    "webpack-cli": "^5.1.4"
+    "rollup": "^4.40.0",
+    "vitest": "^3.1.2"
   }
 }
