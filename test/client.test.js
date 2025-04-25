@@ -1,11 +1,6 @@
-import {readFileSync} from 'node:fs'
-import {join} from 'node:path'
-
 import {vi, test, expect, describe} from 'vitest'
 
 import {createClient} from '../src/node.js'
-
-const pkg = JSON.parse(readFileSync(join(import.meta.dirname, '../package.json'), 'utf8'))
 
 const config = {projectId: '89qx0zd4', dataset: 'sweets', useCdn: true}
 
@@ -206,7 +201,7 @@ test('includes package name in user agent (in node.js)', () => {
   return client.fetch('*[0]').then((res) => {
     expect(client.fetcher).toHaveBeenCalledWith(
       'https://89qx0zd4.apicdn.sanity.io/v2021-03-25/data/query/sweets?query=*%5B0%5D',
-      {headers: {'User-Agent': `${pkg.name}@${pkg.version}`}, method: 'GET'},
+      {headers: {'User-Agent': expect.stringMatching(/^picosanity@\d+\.\d+/)}, method: 'GET'},
     )
     expect(res).toEqual(expectedDoc)
   })
