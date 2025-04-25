@@ -9,7 +9,7 @@ const packageJson = JSON.parse(await fs.readFile(packageJsonPath, 'utf8'))
 const version = packageJson.version
 
 // Path to the index.js file
-const indexPath = path.resolve(import.meta.dirname, '../src/index.js')
+const indexPath = path.resolve(import.meta.dirname, '../src/node.js')
 
 // Read the current content
 let content = await fs.readFile(indexPath, 'utf8')
