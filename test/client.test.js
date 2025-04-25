@@ -1,5 +1,11 @@
-const Client = require('../src')
-const pkg = require('../package.json')
+import {readFileSync} from 'node:fs'
+import {join} from 'node:path'
+
+import {vi, test, expect, describe} from 'vitest'
+
+import {createClient} from '../src/node.js'
+
+const pkg = JSON.parse(readFileSync(join(import.meta.dirname, '../package.json'), 'utf8'))
 
 const config = {projectId: '89qx0zd4', dataset: 'sweets', useCdn: true}
 
@@ -31,37 +37,32 @@ const notImplemented = [
   'transaction',
 ]
 
-test('can construct with `new`', () => {
-  const client = new Client(config)
-  expect(client.config()).toMatchObject(config)
-})
-
-test('can construct without `new`', () => {
-  const client = Client(config)
+test('can construct', () => {
+  const client = createClient(config)
   expect(client.config()).toMatchObject(config)
 })
 
 test('sets config to `clientConfig` for @sanity/client compat', () => {
-  const client = new Client(config)
+  const client = createClient(config)
   expect(client.clientConfig).toMatchObject(config)
 })
 
 test('can query', () => {
-  const client = new Client(config)
+  const client = createClient(config)
   return expect(
     client.fetch('*[_id == "1ba26a25-7f35-4d24-804e-09cc76a0cd73"][0]'),
   ).resolves.toMatchObject(expectedDoc)
 })
 
 test('can query with params', () => {
-  const client = new Client(config)
+  const client = createClient(config)
   return expect(
     client.fetch('*[_id == $id][0]', {id: '1ba26a25-7f35-4d24-804e-09cc76a0cd73'}),
   ).resolves.toMatchObject(expectedDoc)
 })
 
 test('long queries (>11kB) gets POSTed', () => {
-  const client = new Client(config)
+  const client = createClient(config)
   const ws = ' '.repeat(11 * 1024)
   return expect(
     client.fetch(`*[_id == $id]${ws}[0]`, {id: '1ba26a25-7f35-4d24-804e-09cc76a0cd73'}),
@@ -69,7 +70,7 @@ test('long queries (>11kB) gets POSTed', () => {
 })
 
 test('POSTed queries with perspective', () => {
-  const client = new Client({
+  const client = createClient({
     ...config,
     token,
     apiVersion: 'v2021-03-25',
@@ -88,8 +89,8 @@ test('POSTed queries with perspective', () => {
 })
 
 test('can query with token', () => {
-  const client = new Client(config)
-  const readClient = new Client({...config, token})
+  const client = createClient(config)
+  const readClient = createClient({...config, token})
   return client
     .fetch('*[_id == $id][0]', {id: expectedDraft._id})
     .then((res) => expect(res).toBe(null))
@@ -98,14 +99,14 @@ test('can query with token', () => {
 })
 
 test('can reconfigure with .config(newConfig)', () => {
-  const client = new Client(config)
+  const client = createClient(config)
   expect(client.config()).toMatchObject(config)
   expect(client.config({projectId: 'abc123'})).toBe(client)
   expect(client.config()).toMatchObject({...config, projectId: 'abc123'})
 })
 
 test('can specify api version', () => {
-  const client = new Client({...config, apiVersion: 'v2021-03-25'})
+  const client = createClient({...config, apiVersion: 'v2021-03-25'})
 
   return client
     .fetch('*[_id == $id][0] { _id, _type, title, "description": pt::text(nope) }', {
@@ -117,7 +118,7 @@ test('can specify api version', () => {
 })
 
 test('can query with perspectives', () => {
-  const client = new Client({
+  const client = createClient({
     ...config,
     token,
     apiVersion: 'v2021-03-25',
@@ -134,7 +135,7 @@ test('can query with perspectives', () => {
 })
 
 test('can configure perspectives per-request', () => {
-  const client = new Client({
+  const client = createClient({
     ...config,
     token,
     apiVersion: 'v2021-03-25',
@@ -152,7 +153,7 @@ test('can configure perspectives per-request', () => {
 })
 
 test('per-request perspective overrides client config', () => {
-  const client = new Client({
+  const client = createClient({
     ...config,
     token,
     apiVersion: 'v2021-03-25',
@@ -168,7 +169,7 @@ test('per-request perspective overrides client config', () => {
 })
 
 test('per-request perspective overrides client config (#2)', () => {
-  const client = new Client({
+  const client = createClient({
     ...config,
     token,
     apiVersion: 'v2021-03-25',
@@ -187,8 +188,8 @@ test('per-request perspective overrides client config (#2)', () => {
 })
 
 test('includes package name in user agent (in node.js)', () => {
-  const client = new Client({...config, apiVersion: 'v2021-03-25'})
-  client.fetcher = jest.fn(() =>
+  const client = createClient({...config, apiVersion: 'v2021-03-25'})
+  client.fetcher = vi.fn(() =>
     Promise.resolve({
       status: 200,
       headers: {
@@ -212,7 +213,7 @@ test('includes package name in user agent (in node.js)', () => {
 })
 
 test('throws on syntax errors', () => {
-  const client = new Client({...config, apiVersion: 'v2021-03-25'})
+  const client = createClient({...config, apiVersion: 'v2021-03-25'})
 
   return client.fetch('*[_id == "nope"][0] { _id, ').then(
     () => {
@@ -225,7 +226,7 @@ test('throws on syntax errors', () => {
 })
 
 describe('throws when using unimplemented methods', () => {
-  const client = new Client(config)
+  const client = createClient(config)
 
   notImplemented.forEach((method) => {
     test(method, () => expect(client[method]).toThrow(/not implemented/i))

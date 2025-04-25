@@ -16,9 +16,6 @@ export interface FetchOptions {
 }
 
 export interface PicoSanity {
-  // Client/configuration
-  constructor(config: ClientConfig): PicoSanity
-
   /**
    * Returns the current client configuration
    */
@@ -70,10 +67,7 @@ export interface PicoSanity {
   fetcher: (url: string, init: RequestInit) => Promise<Response>
 }
 
-export interface ClientConstructor {
-  new (config: ClientConfig): PicoSanity
-  (config: ClientConfig): PicoSanity
-}
-
-declare const SanityClientConstructor: ClientConstructor
-export default SanityClientConstructor
+/**
+ * Create a new client instance with the given configuration.
+ */
+export function createClient(config: ClientConfig): PicoSanity
